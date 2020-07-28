@@ -30,7 +30,7 @@
 			<img class="more-live-img" src="../assets/more-live.png" alt="">
 		</div>
 		<!-- 商品模块 -->
-		<div class="good-item layout-top" :style="{ bottom: isIphonex() ? '150px' : '106px' }" @click="goDownload()" v-if="liveRoomInfo.goodName">
+		<div class="good-item layout-top" :style="{ bottom: isIphonex() ? '150px' : '115px' }" @click="goDownload()" v-if="liveRoomInfo.goodName">
 			<div class="good-top">
 				<div class="good-top-left">
 					<img class="good-top-icon1" src="../assets/buy-daizi.png" alt="">
@@ -128,30 +128,27 @@ export default {
 			const { URL, roomName, roomNick } = liveRoomInfo;
 			this.liveRoomInfo = liveRoomInfo;
 			document.title = roomName ? roomName : `${roomNick}的直播`;
-			console.log(this.liveRoomInfo, 'skodo')
 			this.initPlayer(URL);
 		},
 		// 初始化视频插件
 		initPlayer(url) {
 			const { innerWidth, innerHeight } = window;
-			const player = new HlsJsPlayer({
+			const player = new window.HlsJsPlayer({
 				id: 'live-container',
 				url,
 				useHls: true,
 				width: innerWidth,
 				height: innerHeight,
-				// volume: 0.6, // 音量
 				fitVideoSize: 'auto',
 				videoInit: true, // 视屏初始化使用首帧
-				// poster: 'http://192.168.74.50:8081/test.jpeg', // 封面图
 				autoplay: true,
 				controls: false, // 关闭视频默认控件
 				lang: 'en',
 				playsinline: true, // 关闭ios默认全屏行为
 				'x5-video-player-type': 'h5',
 				'x5-video-player-fullscreen': false,
+				'x5-video-orientation': 'portraint',
 			});
-			player.emit('resourceReady', [{name: '高清', url: 'url1'}, {name: '超清', url: 'url2'}]);
 		},
 
 		// 关闭弹窗
@@ -186,10 +183,6 @@ export default {
 	right: 0;
 	top: 0;
 	bottom: 0;
-}
-// 隐藏视频开始按钮
-.xgplayer-start {
-	opacity: 0;
 }
 
 .room-logo {

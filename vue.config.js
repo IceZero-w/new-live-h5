@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
 	lintOnSave: false,
-	// publicPath: '/live-h5/',
+	publicPath: '/live-h5/',
 	configureWebpack: {
     resolve: {
 			alias: {
@@ -24,8 +24,6 @@ module.exports = {
     proxy: {
 			'/apicloud/Alive/':  {
         target: 'http://api4.hcjuquan.com',
-        ws: true,
-        changeOrigin: true
       },
 		}
   }

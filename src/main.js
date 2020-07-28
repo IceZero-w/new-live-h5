@@ -15,13 +15,8 @@ import '@/assets/my-mintui.scss'
 Vue.use(MintUI)
 
 // 本地开发调试注入vConsole
-import VConsole from 'vconsole';
-new VConsole();
-
-// const { hacks } = require('viewport-units-buggyfill');
-// require('viewport-units-buggyfill').init({
-//   hacks: hacks
-// });
+// import VConsole from 'vconsole';
+// new VConsole();
 
 new Vue({
   router,
