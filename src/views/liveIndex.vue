@@ -1,63 +1,70 @@
 <template>
 	<div class="container">
 		<div id="live-container"></div>
-		<!-- 直播间信息模块 -->
-		<div class="live-top layout-top" @click="goDownload()" v-if="liveRoomInfo.id">
-			<div class="live-room-info">
-				<img class="room-logo" :src="liveRoomInfo.logo" alt="">
-				<div class="room-name-id">
-					<span class="room-nick">{{ liveRoomInfo.roomNick }}</span>
-					<span class="room-id">ID:{{ liveRoomInfo.id }}</span>
-				</div>
-				<div class="attention-btn">关注</div>
-			</div>
-			<div class="live-room-visit">
-				<template v-if="liveRoomInfo.livePersonList && liveRoomInfo.livePersonList.length">
-					<div class="live-room-img-li" v-for="(item, index) in liveRoomInfo.livePersonList" :key="index">
-						<img v-if="index < 4" class="room-logo visit-person-img" :key="index" :src="item.userAvatar" alt="">
+		<template v-if="liveRoomInfo.id">
+			<!-- 直播间信息模块 -->
+			<div class="live-top layout-top" @click="goDownload()">
+				<div class="live-room-info">
+					<img class="room-logo" :src="liveRoomInfo.logo" alt="">
+					<div class="room-name-id">
+						<span class="room-nick">{{ liveRoomInfo.roomNick }}</span>
+						<span class="room-id">ID:{{ liveRoomInfo.id }}</span>
 					</div>
-				</template>
-				<div class="room-logo live-num">{{ formatPersonNum(liveRoomInfo.liveNum) }}</div>
-			</div>
-		</div>
-		<!-- 头部社群模块 -->
-		<div class="community-box layout-top" @click="goDownload()" v-if="liveRoomInfo.id">
-			<img class="community-img" src="../assets/community.png" alt="">
-			<div class="community-text">进入他的社群</div>
-			<img class="community-img" src="../assets/arrow-right.png" alt="">
-		</div>
-		<div class="more-live layout-top" @click="goDownload()" v-if="liveRoomInfo.id">
-			<img class="more-live-img" src="../assets/more-live.png" alt="">
-		</div>
-		<!-- 商品模块 -->
-		<div class="good-item layout-top" :style="{ bottom: isIphonex() ? '150px' : '115px' }" @click="goDownload()" v-if="liveRoomInfo.goodName">
-			<div class="good-top">
-				<div class="good-top-left">
-					<img class="good-top-icon1" src="../assets/buy-daizi.png" alt="">
-					<span>宝贝上架了，快来抢哟~</span>
+					<div class="attention-btn">关注</div>
 				</div>
-				<img class="good-top-right" src="../assets/close-circle.png" alt="">	
+				<div class="live-room-visit">
+					<template v-if="liveRoomInfo.livePersonList && liveRoomInfo.livePersonList.length">
+						<div class="live-room-img-li" v-for="(item, index) in liveRoomInfo.livePersonList" :key="index">
+							<img v-if="index < 4" class="room-logo visit-person-img" :key="index" :src="item.userAvatar" alt="">
+						</div>
+					</template>
+					<div class="room-logo live-num">{{ formatPersonNum(liveRoomInfo.liveNum) }}</div>
+				</div>
 			</div>
-			<div class="good-bottom">
-				<img class="good-pic" :src="liveRoomInfo.goodMainPic" alt="">
-				<div class="good-name-price">
-					<div class="good-name">{{ liveRoomInfo.goodName }}</div>
-					<div class="good-price">
-						<span>¥</span>
-						<span class="good-price-num">{{ getPrice(liveRoomInfo.goodPrice) }}</span>
+			<!-- 头部社群模块 -->
+			<div class="community-box layout-top" @click="goDownload()">
+				<img class="community-img" src="../assets/community.png" alt="">
+				<div class="community-text">进入他的社群</div>
+				<img class="community-img" src="../assets/arrow-right.png" alt="">
+			</div>
+			<div class="more-live layout-top" @click="goDownload()">
+				<img class="more-live-img" src="../assets/more-live.png" alt="">
+			</div>
+			<!-- 商品模块 -->
+			<div class="good-item layout-top" :style="{ bottom: isIphonex() ? '150px' : '115px' }" @click="goDownload()" v-if="liveRoomInfo.goodName">
+				<div class="good-top">
+					<div class="good-top-left">
+						<img class="good-top-icon1" src="../assets/buy-daizi.png" alt="">
+						<span>宝贝上架了，快来抢哟~</span>
+					</div>
+					<img class="good-top-right" src="../assets/close-circle.png" alt="">	
+				</div>
+				<div class="good-bottom">
+					<img class="good-pic" :src="liveRoomInfo.goodMainPic" alt="">
+					<div class="good-name-price">
+						<div class="good-name">{{ liveRoomInfo.goodName }}</div>
+						<div class="good-price">
+							<span>¥</span>
+							<span class="good-price-num">{{ getPrice(liveRoomInfo.goodPrice) }}</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- 直播间操作模块 -->
-		<div class="live-operator-box layout-top" :style="{ bottom: isIphonex() ? '54px' : '20px' }" @click="goDownload()" v-if="liveRoomInfo.id">
-			<div class="coment-box">说点什么...</div>
-			<div class="live-operator-btn">
-				<img class="live-operator-btn-icon" src="../assets/daizi.png" alt="">
-				<img class="live-operator-btn-icon" src="../assets/gift.png" alt="">
+			<!-- 直播间操作模块 -->
+			<div class="live-operator-box layout-top" :style="{ bottom: isIphonex() ? '54px' : '20px' }" @click="goDownload()">
+				<div class="coment-box">说点什么...</div>
+				<div class="live-operator-btn">
+					<img class="live-operator-btn-icon" src="../assets/daizi.png" alt="">
+					<img class="live-operator-btn-icon" src="../assets/gift.png" alt="">
+				</div>
 			</div>
-		</div>
+		</template>
+		<template v-else>
+			<div class="no-data">
+				<span>{{ isLoading ? '' : '直播信息获取异常，请刷新重试～' }}</span>
+			</div>
+		</template>
 
 		<div class="app-download-dialog layout-top" :style="{ height: isIphonex() ? '204px' : '170px' }" v-if="downloadDialog === true">
 			<div class="app-info">
@@ -82,6 +89,7 @@ let Timer;
 export default {
 	data() {
 		return {
+			isLoading: true,
 			roomId: undefined, // 直播房间号id
 			liveRoomInfo: {}, // 直播房间信息
 
@@ -97,7 +105,7 @@ export default {
 		}, 5000)
 		document.body.addEventListener('touchmove' , function(e){
 			window.scrollTop = 0
-			e.preventDefault();
+			e && e.preventDefault();
 		});
 	},
 	destroyed() {
@@ -113,6 +121,7 @@ export default {
 					duration: 1500,
 					className: 'my-toast',
 				});
+				this.isLoading = false;
 				return;
 			}
 			this.getLiveDataFn();
@@ -127,8 +136,9 @@ export default {
 			const liveRoomInfo = res.data.data || {};
 			const { URL, roomName, roomNick } = liveRoomInfo;
 			this.liveRoomInfo = liveRoomInfo;
-			document.title = roomName ? roomName : `${roomNick}的直播`;
-			this.initPlayer(URL);
+			this.isLoading = false;
+			document.title = roomName ? roomName : `${roomNick || '聚圈'}的直播`;
+			URL && this.initPlayer(URL);
 		},
 		// 初始化视频插件
 		initPlayer(url) {
@@ -149,6 +159,11 @@ export default {
 				'x5-video-player-fullscreen': false,
 				'x5-video-orientation': 'portraint',
 			});
+			player.once('complete',()=>{
+				window.WeixinJSBridge && window.WeixinJSBridge.invoke('getNetworkType', {}, () => {
+					document.getElementsByTagName('video')[0].play()
+				})
+			})
 		},
 
 		// 关闭弹窗
@@ -183,6 +198,20 @@ export default {
 	right: 0;
 	top: 0;
 	bottom: 0;
+	background: rgba(153, 153, 153, .2);
+}
+
+.no-data {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 28px;
+	box-sizing: border-box;
 }
 
 .room-logo {

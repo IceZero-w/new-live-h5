@@ -17,7 +17,16 @@ function http(method, url, data) {
 	
 	const promise = new Promise((resolve, reject) => {
 		Axios[method](url, param).then((res) => {
-			resolve(res.data)
+			if (res.status !== 200) {
+				Toast({
+					message: res.mess || '系统错误',
+					duration: 1500,
+					className: 'my-toast',
+				});
+				resolve({});
+			} else {
+				resolve(res.data)
+			}
 		}).catch((err) => {
 			Toast({
 				message: err.mess || '系统错误',
