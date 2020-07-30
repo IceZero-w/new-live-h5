@@ -114,7 +114,7 @@ export default {
 	},
 	methods: {
 		init() {
-			this.roomId = this.getUrlParams('roomId');
+			this.roomId = this.$route.query.roomId;
 			if (!this.roomId) {
 				Toast({
 					message: '直播房间号获取异常',
@@ -234,6 +234,8 @@ export default {
 	left: 0;
 	right: 0;
 	padding: 0px 30px;
+	display: flex;
+	justify-content: space-between;
 
 	.live-room-info {
 		width: 330px;
