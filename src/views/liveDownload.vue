@@ -30,26 +30,26 @@ export default {
 	methods: {
 		// 下载app
 		downloadApp() {
-			// 如果是ios系统，则直接
-			if (this.isIOS()) {
-				openIframe(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
-			} else {
-				this.androidFn();
-			}
-		},
-		androidFn() {
 			//尝试打开URL scheme，在2秒后检查当前时间，如果实际时间已过2200 毫秒，说明唤起成功（唤起 APP会让浏览器的定时器变慢）
 			window.location.href = `live://data/roomId=${this.$route.query.roomId}`;
+			var t = Date.now();
+			setTimeout(() => {
+				if (Date.now() - t < 2200) {
+					// 如果是ios系统，则直接
+					if (this.isIOS()) {
+						openIframe(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
+					} else {
+						this.androidFn();
+					}
+				}
+			}, 2000);
+		},
+		androidFn() {
 			if (this.isWeixin()) {
 				this.dialogShow = true;
 				return;
 			}
-			var t = Date.now();
-			setTimeout(() => {
-				if (Date.now() - t < 2200) {
-					openIframe('http://api2.hcjuquan.com/apks/juquan.apk')
-				}
-			}, 2000);
+			openIframe('http://api2.hcjuquan.com/apks/juquan.apk')
 		},
 	}
 }

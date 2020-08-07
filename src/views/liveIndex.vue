@@ -164,7 +164,7 @@ export default {
 				controls: false, // 关闭视频默认控件
 				lang: 'en',
 				playsinline: true, // 关闭ios默认全屏行为
-				'x5-video-player-type': 'h5',
+				'x5-video-player-type': 'h5-page',
 				'x5-video-player-fullscreen': false,
 				'x5-video-orientation': 'portraint',
 			});
@@ -182,30 +182,30 @@ export default {
 
 		// 前往下载页面
 		goDownload() {
-			if (this.isIOS()) {
-				openIframe(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
-			} else {
-				this.androidFn();
-			}
-		},
-		androidFn() {
 			//尝试打开URL scheme，在2秒后检查当前时间，如果实际时间已过2200 毫秒，说明唤起成功（唤起 APP会让浏览器的定时器变慢）
 			window.location.href = `live://data/roomId=${this.$route.query.roomId}`;
-			var t = Date.now();
+			const t = Date.now();
 			setTimeout(() => {
 					if (Date.now() - t < 2200) {
-						if (!this.isWeixin()) {
-							openIframe('http://api2.hcjuquan.com/apks/juquan.apk')
+						if (this.isIOS()) {
+							openIframe(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
 						} else {
-							this.$router.push({
-								path: 'liveDownload',
-								query: {
-									roomId: this.roomId,
-								},
-							});
+							this.androidFn();
 						}
 					}
 			}, 2000);
+		},
+		androidFn() {
+			if (!this.isWeixin()) {
+				openIframe('http://api2.hcjuquan.com/apks/juquan.apk')
+				return;
+			}
+			this.$router.push({
+				path: 'liveDownload',
+				query: {
+					roomId: this.roomId,
+				},
+			});
 		},
 	},
 }
