@@ -237,6 +237,7 @@ export default {
 	width: 62px;
 	height: 62px;
 	border-radius: 50%;
+	object-fit: cover;
 }
 
 .layout-top {
