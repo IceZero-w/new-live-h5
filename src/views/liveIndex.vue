@@ -86,6 +86,15 @@ import { Toast } from 'mint-ui';
 import { getLiveData } from '@/api/live';
 
 let Timer;
+function openIframe(src) {
+	const ifr = document.createElement("iframe");
+	ifr.src = src;
+	ifr.style.display = 'none';
+	document.body.appendChild(ifr);
+	window.setTimeout(function(){
+			document.body.removeChild(ifr);
+	},2000)
+}
 export default {
 	data() {
 		return {
@@ -174,19 +183,29 @@ export default {
 		// 前往下载页面
 		goDownload() {
 			if (this.isIOS()) {
-				window.open(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
+				openIframe(`https://itunes.apple.com/cn/app/id1502999426?mt=${this.$route.query.roomId}`)
 			} else {
-				if (!this.isWeixin() && !this.isIOS()) {
-					window.open(`https://shouji.baidu.com/software/27111703.html?roomId=${this.$route.query.roomId}`)
-				} else {
-					this.$router.push({
-						path: 'liveDownload',
-						query: {
-							roomId: this.roomId,
-						},
-					});
-				}
+				this.androidFn();
 			}
+		},
+		androidFn() {
+			//尝试打开URL scheme，在2秒后检查当前时间，如果实际时间已过2200 毫秒，说明唤起成功（唤起 APP会让浏览器的定时器变慢）
+			window.location.href = `live://data/roomId=${this.$route.query.roomId}`;
+			var t = Date.now();
+			setTimeout(() => {
+					if (Date.now() - t < 2200) {
+						if (!this.isWeixin()) {
+							openIframe('http://api2.hcjuquan.com/apks/juquan.apk')
+						} else {
+							this.$router.push({
+								path: 'liveDownload',
+								query: {
+									roomId: this.roomId,
+								},
+							});
+						}
+					}
+			}, 2000);
 		},
 	},
 }
